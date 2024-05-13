@@ -1,16 +1,3 @@
-// let answer = parseInt(prompt("Enter a number you would like to fuzzbuzz up to"))
-// for (let i = 1; i <= answer;i++) {
-//     if (i % 3 == 0 && i % 5 == 0){
-//         console.log("FizzBuzz");
-//     } else if (i % 5 == 0){
-//         console.log("Buzz");
-//     } else if (i % 3 ){
-//         console.log("Fizz")
-//     } else {
-//         console.log(i);
-//     }
-// }
-// rock = 0 paper = 1 scissors = 2
 let int_to_rps = {
     0 : "rock",
     1 : "paper",
@@ -31,11 +18,53 @@ function rps_calc(user_input) {
     }
     results = greater_variable - smaller_variable;
     if ((results == 1 && user_input == greater_variable) || (results == 2 && user_input == smaller_variable)){
-        return document.getElementById("message"). innerHTML = (`user input ${int_to_rps[user_input]} computer input ${int_to_rps[com_input]} you have won`);
+         //1 for user 0 for com
+        document.getElementById("message").innerHTML = (`user input ${int_to_rps[user_input]} computer input ${int_to_rps[com_input]} you have won`);
+        return score_calc(1);
     } else if ((results == 1 && user_input == smaller_variable) || (results == 2 && user_input == greater_variable)){
-        return document.getElementById("message").innerHTML = (`user input ${int_to_rps[user_input]} computer input ${int_to_rps[com_input]} you have lost`);}
+        document.getElementById("message").innerHTML = (`user input ${int_to_rps[user_input]} computer input ${int_to_rps[com_input]} you have lost`);
+        return score_calc(0)
+    }
 }
 
 function random_input() {
     return parseInt(Math.random() * 3);
 }
+let user_score = 0;
+let com_score = 0;
+let button = document.getElementsByClassName("button");
+console.log(button)
+
+function score_calc(winner){
+    if (user_score < 6 && com_score < 6){
+        if (winner == 1){
+            user_score++;
+            return document.getElementById("user_score").innerHTML = user_score
+        } else if (winner == 0){
+            com_score++;
+            return document.getElementById("com_score").innerHTML = com_score
+        }
+    } else{
+        final_div.style.display = "block"
+        if (user_score >= 6){
+            document.getElementById("winner").innerHTML = "User";
+        }if (com_score >= 6){
+            document.getElementById("winner").innerHTML = "Computer";
+        }
+        for (let i = 0; i < button.length;i++){
+            button[i].disabled = true; //this took me an hour LMAO WTF
+        }
+    }
+}
+
+function reset_game(){
+    final_div.style.display = "none"
+    for (let i = 0; i < button.length;i++){
+        button[i].disabled = false
+    }
+    user_score = 0;
+    com_score = 0;
+    //im too tired to optimise this
+    document.getElementById("user_score").innerHTML = 0;
+    document.getElementById("com_score").innerHTML = 0;
+
